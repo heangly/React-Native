@@ -3,20 +3,22 @@ import { elevation } from '../common/styles'
 
 const CategoryItem = ({ name, imageURL, active, setTerm }) => {
   return (
-    <TouchableOpacity onPress={() => setTerm(name)}>
-      <View
-        style={[
-          styles.container,
-          styles.elevation,
-          active && { backgroundColor: 'rgb(241, 186, 87)' }
-        ]}
-      >
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={imageURL} />
+    <View style={{ marginVertical: 30 }}>
+      <TouchableOpacity onPress={() => setTerm(name)}>
+        <View
+          style={[
+            styles.container,
+            styles.elevation,
+            active && { backgroundColor: 'rgb(241, 186, 87)' }
+          ]}
+        >
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={imageURL} />
+          </View>
+          <Text style={styles.header}>{name}</Text>
         </View>
-        <Text style={styles.header}>{name}</Text>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   )
 }
 
@@ -25,11 +27,10 @@ const styles = StyleSheet.create({
     width: 80,
     height: 100,
     borderRadius: 50,
-    marginVertical: 30,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    paddingHorizontal: 10,
     marginRight: 25
   },
 
