@@ -1,8 +1,19 @@
-import { View } from 'react-native'
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 import HomeScreen from './src/screens/HomeScreen'
+import RestaurantScreen from './src/screens/RestaurantScreen'
 
-const App = () => {
-  return <HomeScreen />
-}
+const navigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Restaurant: RestaurantScreen
+  },
+  {
+    initialRouteName: 'Restaurant',
+    defaultNavigationOptions: {
+      title: 'Business Search'
+    }
+  }
+)
 
-export default App
+export default createAppContainer(navigator)
