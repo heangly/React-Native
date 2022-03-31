@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { Button, TextInput, View, StyleSheet } from 'react-native'
+import { useState } from 'react'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -8,7 +8,6 @@ const GoalInput = ({ setGoals }) => {
 
   const addGoalHandler = () => {
     if (!text?.trim()) return
-
     const newGoal = { id: uuidv4(), text }
     setGoals((preState) => [newGoal, ...preState])
     setText('')
