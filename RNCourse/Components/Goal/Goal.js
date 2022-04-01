@@ -1,14 +1,34 @@
-import { FlatList, View, StyleSheet } from 'react-native'
+import { FlatList, View, StyleSheet, Button } from 'react-native'
 import { useState } from 'react'
 import GoalItem from './GoalItem'
 import GoalInput from './GoalInput'
 
 const Goal = () => {
   const [goals, setGoals] = useState([])
+  const [modalisVisible, setModalIsVisible] = useState(false)
+
+  const startAddGoalHandler = () => {
+    setModalIsVisible(true)
+  }
+
+  const endAddGoalHandler = () => {
+    setModalIsVisible(false)
+  }
 
   return (
     <View style={styles.goalContainer}>
-      <GoalInput setGoals={setGoals} />
+      <Button
+        title='Add New Goal'
+        color='#b180f0'
+        onPress={startAddGoalHandler}
+      />
+
+      <GoalInput
+        setGoals={setGoals}
+        visible={modalisVisible}
+        endAddGoalHandler={endAddGoalHandler}
+      />
+
       <View style={styles.goal}>
         <FlatList
           keyExtractor={(item) => item.id}

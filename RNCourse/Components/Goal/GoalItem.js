@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Modal } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 const GoalItem = ({ item, setGoals }) => {
   const deleteHandler = (id) => {
@@ -15,16 +15,14 @@ const GoalItem = ({ item, setGoals }) => {
   // }
 
   return (
-    <Modal>
-      <Pressable
-        onPress={deleteHandler.bind(null, item.id)}
-        style={({ pressed }) => pressed && styles.pressedItem}
-      >
-        <View style={styles.goals}>
-          <Text style={styles.goalsText}>{item.text}</Text>
-        </View>
-      </Pressable>
-    </Modal>
+    <Pressable
+      onPress={deleteHandler.bind(null, item.id)}
+      style={({ pressed }) => pressed && styles.pressedItem}
+    >
+      <View style={styles.goals}>
+        <Text style={styles.goalsText}>{item.text}</Text>
+      </View>
+    </Pressable>
   )
 }
 
