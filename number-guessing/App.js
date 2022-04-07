@@ -4,22 +4,39 @@ import { useState } from 'react'
 import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native'
 import StartGameScreen from './screens/StartGameScreen'
 import GameScreen from './screens/GameScreen'
+import Colors from './constants/colors'
+import GameOverScreen from './screens/GameOverScreen'
 
 export default function App() {
   const [userNumber, setUserNumber] = useState(null)
+  const [gameIsOver, setGameIsOver] = useState(true)
 
   const pickNumberHandler = (pickedNumber) => {
     setUserNumber(pickedNumber)
+    setGameIsOver(false)
+  }
+
+  const gameOverHandler = () => {
+    setGameIsOver(true)
   }
 
   let screen = <StartGameScreen pickNumberHandler={pickNumberHandler} />
 
   if (userNumber) {
-    screen = <GameScreen userNumber={userNumber} />
+    screen = (
+      <GameScreen userNumber={userNumber} gameOverHandler={gameOverHandler} />
+    )
+  }
+
+  if (gameIsOver && userNumber) {
+    screen = <GameOverScreen />
   }
 
   return (
-    <LinearGradient colors={['#4e0329', '#ddb52f']} style={styles.rootScreen}>
+    <LinearGradient
+      colors={[Colors.primary700, Colors.accent500]}
+      style={styles.rootScreen}
+    >
       <ImageBackground
         source={require('./assets/dice.png')}
         resizeMode='cover'
