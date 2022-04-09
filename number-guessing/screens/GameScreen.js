@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+
 import Title from '../components/ui/Title'
 import NumberContainer from '../components/game/NumberContainer'
 import PrimaryButton from '../components/ui/PrimaryButton'
+import Card from '../components/ui/Card'
+import InstructionText from '../components/ui/InstructionText'
 
 const generateRandomBetween = (min, max, exclude) => {
   const rndNum = Math.floor(Math.random() * (max - min)) + min
@@ -53,17 +57,23 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
     <View style={styles.screen}>
       <Title>Opponent Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <View>
-        <Text>Higer or Lower?</Text>
-        <View>
-          <PrimaryButton onPress={nextGuessHandler.bind(null, 'lower')}>
-            -
-          </PrimaryButton>
-          <PrimaryButton onPress={nextGuessHandler.bind(null, 'greater')}>
-            +
-          </PrimaryButton>
+      <Card>
+        <InstructionText style={styles.instructionText}>
+          Higer or Lower?
+        </InstructionText>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={nextGuessHandler.bind(null, 'lower')}>
+              <Ionicons name='md-remove' size={24} color='white' />
+            </PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={nextGuessHandler.bind(null, 'greater')}>
+              <Ionicons name='md-add' size={24} color='white' />
+            </PrimaryButton>
+          </View>
         </View>
-      </View>
+      </Card>
       <View>
         <Text>Logs Round</Text>
       </View>
@@ -77,5 +87,17 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24
+  },
+
+  instructionText: {
+    marginBottom: 12
+  },
+
+  buttonsContainer: {
+    flexDirection: 'row'
+  },
+
+  buttonContainer: {
+    flex: 1
   }
 })
