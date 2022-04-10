@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import { Alert, FlatList, StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 import Title from '../components/ui/Title'
@@ -7,6 +7,7 @@ import NumberContainer from '../components/game/NumberContainer'
 import PrimaryButton from '../components/ui/PrimaryButton'
 import Card from '../components/ui/Card'
 import InstructionText from '../components/ui/InstructionText'
+import GuessLogItem from '../components/game/GuessLogItem'
 
 const generateRandomBetween = (min, max, exclude) => {
   const rndNum = Math.floor(Math.random() * (max - min)) + min
@@ -20,6 +21,7 @@ let maxBoundary = 100
 const GameScreen = ({ userNumber, gameOverHandler }) => {
   const initialGuess = generateRandomBetween(1, 100, userNumber)
   const [currentGuess, setCurrentGuess] = useState(initialGuess)
+  const [guessRounds, setGuessRounds] = useState([initialGuess])
 
   const nextGuessHandler = (direction) => {
     if (
@@ -45,13 +47,19 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
     )
 
     setCurrentGuess(newRndNumber)
+    setGuessRounds((prevState) => [newRndNumber, ...prevState])
   }
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-      gameOverHandler()
+      gameOverHandler(guessRounds.length)
     }
   }, [currentGuess, userNumber, gameOverHandler])
+
+  useEffect(() => {
+    minBoundary = 1
+    maxBoundary = 100
+  }, [])
 
   return (
     <View style={styles.screen}>
@@ -74,8 +82,17 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
           </View>
         </View>
       </Card>
-      <View>
-        <Text>Logs Round</Text>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={guessRounds}
+          renderItem={({ item, index }) => (
+            <GuessLogItem
+              guess={item}
+              roundNumber={guessRounds.length - index}
+            />
+          )}
+          keyExtractor={(item) => item}
+        />
       </View>
     </View>
   )
@@ -99,5 +116,10 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flex: 1
+  },
+
+  listContainer: {
+    flex: 1,
+    padding: 16
   }
 })
