@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Alert, FlatList, StyleSheet, View } from 'react-native'
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  View,
+  useWindowDimensions
+} from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 
 import Title from '../components/ui/Title'
@@ -22,6 +28,7 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
   const initialGuess = generateRandomBetween(1, 100, userNumber)
   const [currentGuess, setCurrentGuess] = useState(initialGuess)
   const [guessRounds, setGuessRounds] = useState([initialGuess])
+  const { width, height } = useWindowDimensions()
 
   const nextGuessHandler = (direction) => {
     if (
@@ -61,9 +68,8 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
     maxBoundary = 100
   }, [])
 
-  return (
-    <View style={styles.screen}>
-      <Title>Opponent Guess</Title>
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <InstructionText style={styles.instructionText}>
@@ -82,6 +88,35 @@ const GameScreen = ({ userNumber, gameOverHandler }) => {
           </View>
         </View>
       </Card>
+    </>
+  )
+
+  if (width > 500) {
+    content = (
+      <>
+        <View style={styles.buttonContainerWide}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={nextGuessHandler.bind(null, 'lower')}>
+              <Ionicons name='md-remove' size={24} color='white' />
+            </PrimaryButton>
+          </View>
+
+          <NumberContainer>{currentGuess}</NumberContainer>
+
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={nextGuessHandler.bind(null, 'greater')}>
+              <Ionicons name='md-add' size={24} color='white' />
+            </PrimaryButton>
+          </View>
+        </View>
+      </>
+    )
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Title>Opponent Guess</Title>
+      {content}
       <View style={styles.listContainer}>
         <FlatList
           data={guessRounds}
@@ -109,6 +144,11 @@ const styles = StyleSheet.create({
 
   instructionText: {
     marginBottom: 12
+  },
+
+  buttonContainerWide: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   buttonsContainer: {
