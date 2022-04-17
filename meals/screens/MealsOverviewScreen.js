@@ -28,6 +28,7 @@ const MealsOverviewScreen = ({ route, navigation }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <MealItem
+            id={item.id}
             title={item.title}
             imageUrl={item.imageUrl}
             affordability={item.affordability}
