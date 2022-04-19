@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     padding: 6,
     borderBottomColor: '#e2b497',
     borderBottomWidth: 2,
-    marginHorizontal: 24,
+    marginHorizontal: 12,
     marginVertical: 4
   },
 

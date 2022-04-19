@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 
 const List = ({ data }) => {
-  return selectedMeal.ingredients.map((dataPoint) => (
-    <View>
-      <Text key={dataPoint}>{dataPoint}</Text>
+  return data.map((dataPoint) => (
+    <View style={styles.listItem} key={dataPoint}>
+      <Text style={styles.itemText}>{dataPoint}</Text>
     </View>
   ))
 }
@@ -14,8 +14,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     marginVertical: 4,
-    marginHorizontala: 12,
+    marginHorizontal: 12,
     backgroundColor: '#e2b487'
+  },
+  itemText: {
+    color: '#351401',
+    textAlign: 'center'
   }
 })
 
