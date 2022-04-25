@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 import AllExpenses from './src/screens/AllExpenses'
 import ManageExpenses from './src/screens/ManageExpenses'
 import RecentExpenses from './src/screens/RecentExpenses'
+import IconButton from './src/components/UI/IconButton'
 import { GlobalStyles } from './src/constants/styles'
 
 const Stack = createNativeStackNavigator()
@@ -15,12 +16,22 @@ const BottomTab = createBottomTabNavigator()
 const ExpensesOverview = () => {
   return (
     <BottomTab.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: 'white',
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
-        tabBarActiveTintColor: GlobalStyles.colors.accent500
-      }}
+        tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            icon='add'
+            size={24}
+            color={tintColor}
+            onPress={() => {
+              navigation.navigate('ManageExpenses')
+            }}
+          />
+        )
+      })}
     >
       <BottomTab.Screen
         name='RecentExpenses'
@@ -52,13 +63,24 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+            headerTintColor: 'white'
+          }}
+        >
           <Stack.Screen
             name='ExpensesOverview'
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name='ManageExpenses' component={ManageExpenses} />
+          <Stack.Screen
+            name='ManageExpenses'
+            component={ManageExpenses}
+            options={{
+              presentation: 'modal'
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style='light' />
