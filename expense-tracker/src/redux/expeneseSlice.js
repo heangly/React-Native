@@ -24,13 +24,13 @@ const initialState = {
       id: 'e4',
       description: 'A book',
       amount: 18.99,
-      date: new Date('2022-02-19')
+      date: new Date('2022-04-20')
     },
     {
       id: 'e5',
       description: 'Another book',
       amount: 14.59,
-      date: new Date('2022-02-22')
+      date: new Date('2022-04-22')
     },
     {
       id: 'e6',
@@ -69,20 +69,25 @@ const expenseSlice = createSlice({
   name: 'expense',
   initialState,
   reducers: {
-    addExpense: (state, action) => state.expenses.push(action.expense),
-
-    deleteExpense: (state, action) =>
-      state.expenses.filter((expense) => expense.id !== action.id),
+    addExpense: (state, action) => {
+      state.expenses.push(action.payload)
+    },
 
     updateExpense: (state, action) => {
       for (const expense of state.expenses) {
-        if (expense.id === action.id) {
-          expense.description = action.description
-          expense.amount = action.amount
-          expense.date = action.date
+        if (expense.id === action.payload.id) {
+          expense.description = action.payload.description
+          expense.amount = action.payload.amount
+          expense.date = action.payload.date
           return
         }
       }
+    },
+
+    deleteExpense: (state, action) => {
+      state.expenses = state.expenses.filter(
+        (expense) => expense.id !== action.payload.id
+      )
     }
   }
 })

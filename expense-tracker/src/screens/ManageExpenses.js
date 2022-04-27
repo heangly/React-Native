@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import IconButton from '../components/UI/IconButton'
 import Button from '../components/UI/Button'
@@ -16,13 +16,13 @@ const ManageExpenses = ({ route, navigation }) => {
   const isEditing = !!editedExpenseId
 
   const dispatch = useDispatch()
-  const { expenses } = useSelector((state) => state.expense)
 
   const closeModal = () => {
     navigation.goBack()
   }
 
   const deleteExpenseHandler = () => {
+    dispatch(deleteExpense({ id: editedExpenseId }))
     closeModal()
   }
 
@@ -31,7 +31,29 @@ const ManageExpenses = ({ route, navigation }) => {
   }
 
   const confirmHandler = () => {
-    let id = editedExpenseId ?? new Date().toString() + Math.random().toString()
+    if (editedExpenseId) {
+      // edit
+      dispatch(
+        updateExpense({
+          id: editedExpenseId,
+          description: 'EDITING',
+          amount: 5555.99,
+          date: new Date('2022-01-05')
+        })
+      )
+    } else {
+      // add
+      const id = new Date().toString() + Math.random().toString()
+
+      dispatch(
+        addExpense({
+          id,
+          description: 'TESTING',
+          amount: 1111.99,
+          date: new Date('2022-04-28')
+        })
+      )
+    }
 
     closeModal()
   }

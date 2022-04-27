@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 
 const ExpensesSummary = ({ expenses, periodName }) => {
-  const expensesSum = expenses.reduce((acc, curr) => acc + curr.amount, 0)
+  const expensesSum = expenses?.reduce((acc, curr) => acc + curr.amount, 0) ?? 0
 
   return (
     <View style={styles.container}>
