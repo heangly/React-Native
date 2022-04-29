@@ -31,15 +31,13 @@ const ManageExpenses = ({ route, navigation }) => {
     closeModal()
   }
 
-  const confirmHandler = () => {
+  const confirmHandler = (expenseData) => {
     if (editedExpenseId) {
       // edit
       dispatch(
         updateExpense({
           id: editedExpenseId,
-          description: 'EDITING',
-          amount: 5555.99,
-          date: new Date('2022-01-05')
+          ...expenseData
         })
       )
     } else {
@@ -49,9 +47,7 @@ const ManageExpenses = ({ route, navigation }) => {
       dispatch(
         addExpense({
           id,
-          description: 'TESTING',
-          amount: 1111.99,
-          date: new Date('2022-04-28')
+          ...expenseData
         })
       )
     }
@@ -61,21 +57,17 @@ const ManageExpenses = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? 'Edit Expense' : 'Add Expense'
+      title: isEditing ? 'Update Expense' : 'Add Expense'
     })
   }, [navigation, isEditing])
 
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttons}>
-        <Button mode='flat' onPress={cancelHandler} style={styles.button}>
-          Cancel
-        </Button>
-        <Button onPress={confirmHandler} style={styles.button}>
-          {isEditing ? 'Update' : 'Add'}
-        </Button>
-      </View>
+      <ExpenseForm
+        submitButtonLabel={isEditing ? 'Update' : 'Add'}
+        onCancel={cancelHandler}
+        onSubmit={confirmHandler}
+      />
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
@@ -95,17 +87,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800
-  },
-
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8
   },
 
   deleteContainer: {
