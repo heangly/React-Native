@@ -1,9 +1,8 @@
 import { useLayoutEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import IconButton from '../components/UI/IconButton'
-import Button from '../components/UI/Button'
 import ExpenseForm from '../components/ManageExpense/ExpenseForm'
 import {
   addExpense,
@@ -17,6 +16,10 @@ const ManageExpenses = ({ route, navigation }) => {
   const isEditing = !!editedExpenseId
 
   const dispatch = useDispatch()
+
+  const selectedExpense = useSelector((state) =>
+    state.expense.expenses.find((expense) => expense.id === editedExpenseId)
+  )
 
   const closeModal = () => {
     navigation.goBack()
@@ -67,6 +70,7 @@ const ManageExpenses = ({ route, navigation }) => {
         submitButtonLabel={isEditing ? 'Update' : 'Add'}
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
+        defaultValue={selectedExpense}
       />
       {isEditing && (
         <View style={styles.deleteContainer}>
