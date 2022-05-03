@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import IconButton from '../components/UI/IconButton'
 import ExpenseForm from '../components/ManageExpense/ExpenseForm'
+import { storeExpense } from '../util/http'
 import {
   addExpense,
   deleteExpense,
@@ -45,11 +46,10 @@ const ManageExpenses = ({ route, navigation }) => {
       )
     } else {
       // add
-      const id = new Date().toString() + Math.random().toString()
-
+      // const id = new Date().toString() + Math.random().toString()
+      storeExpense(expenseData)
       dispatch(
         addExpense({
-          id,
           ...expenseData
         })
       )
