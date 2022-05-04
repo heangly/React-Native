@@ -4,7 +4,9 @@ const BASE_URL = 'https://expense-tracker-986cd-default-rtdb.firebaseio.com'
 const EXPENSES_END_POINT = '/expenses.json'
 
 export const storeExpense = async (expenseData) => {
-  await axios.post(BASE_URL + EXPENSES_END_POINT, expenseData)
+  const response = await axios.post(BASE_URL + EXPENSES_END_POINT, expenseData)
+  const id = response.data.name
+  return id
 }
 
 export const fetchExpenses = async () => {
@@ -20,4 +22,12 @@ export const fetchExpenses = async () => {
   }
 
   return expenses
+}
+
+export const updateSpecificExpense = (id, expenseData) => {
+  return axios.put(BASE_URL + `/expenses/${id}.json`, expenseData)
+}
+
+export const deleteSpecificExpense = (id) => {
+  return axios.delete(BASE_URL + `/expenses/${id}.json`)
 }

@@ -4,15 +4,25 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import IconButton from '../components/UI/IconButton'
 import ExpenseForm from '../components/ManageExpense/ExpenseForm'
-import { storeExpense } from '../util/http'
+import LoadingOverlay from '../components/UI/LoadingOverlay'
+import ErrorOverlay from '../components/UI/ErrorOverlay'
+import {
+  storeExpense,
+  updateSpecificExpense,
+  deleteSpecificExpense
+} from '../util/http'
 import {
   addExpense,
   deleteExpense,
   updateExpense
 } from '../redux/expeneseSlice'
 import { GlobalStyles } from '../constants/styles'
+import { useState } from 'react'
 
 const ManageExpenses = ({ route, navigation }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState(null)
+
   const editedExpenseId = route.params?.expenseId
   const isEditing = !!editedExpenseId
 
@@ -27,35 +37,50 @@ const ManageExpenses = ({ route, navigation }) => {
   }
 
   const deleteExpenseHandler = () => {
-    dispatch(deleteExpense({ id: editedExpenseId }))
-    closeModal()
+    setIsSubmitting(true)
+    try {
+      dispatch(deleteExpense({ id: editedExpenseId }))
+      deleteSpecificExpense(editedExpenseId)
+      closeModal()
+    } catch (error) {
+      setError('Could not delete expense - please try again later')
+    }
+    setIsSubmitting(false)
   }
 
   const cancelHandler = () => {
     closeModal()
   }
 
-  const confirmHandler = (expenseData) => {
-    if (editedExpenseId) {
-      // edit
-      dispatch(
-        updateExpense({
-          id: editedExpenseId,
-          ...expenseData
-        })
-      )
-    } else {
-      // add
-      // const id = new Date().toString() + Math.random().toString()
-      storeExpense(expenseData)
-      dispatch(
-        addExpense({
-          ...expenseData
-        })
-      )
+  const confirmHandler = async (expenseData) => {
+    setIsSubmitting(true)
+    try {
+      if (editedExpenseId) {
+        // edit
+
+        dispatch(
+          updateExpense({
+            id: editedExpenseId,
+            ...expenseData
+          })
+        )
+        updateSpecificExpense(editedExpenseId, expenseData)
+        closeModal()
+      } else {
+        // add
+        const id = await storeExpense(expenseData)
+        dispatch(
+          addExpense({
+            ...expenseData,
+            id
+          })
+        )
+      }
+    } catch (error) {
+      setError('Cound not save data - please try again later')
     }
 
-    closeModal()
+    setIsSubmitting(false)
   }
 
   useLayoutEffect(() => {
@@ -63,6 +88,15 @@ const ManageExpenses = ({ route, navigation }) => {
       title: isEditing ? 'Update Expense' : 'Add Expense'
     })
   }, [navigation, isEditing])
+
+  const errorHandler = () => {
+    setError(null)
+  }
+
+  if (isSubmitting) return <LoadingOverlay />
+
+  if (error && !isSubmitting)
+    return <ErrorOverlay onConfirm={errorHandler}>{error}</ErrorOverlay>
 
   return (
     <View style={styles.container}>
