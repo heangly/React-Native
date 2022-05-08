@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -12,7 +12,6 @@ function LoginScreen() {
   const dispatch = useDispatch()
 
   const auth = useSelector((state) => state.auth)
-  console.log(auth)
 
   const signinHandler = async ({ email, password }) => {
     setIsAuthenticating(true)

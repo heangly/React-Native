@@ -9,7 +9,8 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import { Colors } from './constants/styles'
 import { store } from './redux/store'
 import IconButton from './components/ui/IconButton'
-import { logout } from './redux/slice/authSlice'
+import { getTokenInStorage, logout } from './redux/slice/authSlice'
+import { useEffect } from 'react'
 
 const Stack = createNativeStackNavigator()
 
@@ -62,7 +63,12 @@ function AuthenticatedStack() {
 }
 
 function Navigation() {
+  const dispatch = useDispatch()
   const { auth } = useSelector((state) => state)
+
+  useEffect(() => {
+    dispatch(getTokenInStorage())
+  }, [])
 
   return (
     <NavigationContainer>
