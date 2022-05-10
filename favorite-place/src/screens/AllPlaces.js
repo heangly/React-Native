@@ -1,7 +1,9 @@
 import { Text } from 'react-native'
 
+import PlacesList from '../components/PlacesList'
+
 const AllPlaces = () => {
-  return <Text>AllPlaces</Text>
+  return <PlacesList />
 }
 
 export default AllPlaces
