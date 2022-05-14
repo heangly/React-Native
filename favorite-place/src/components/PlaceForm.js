@@ -8,7 +8,7 @@ import LocationPicker from './LocationPicker'
 import Button from './UI/Button'
 
 const PlaceForm = ({ onCreatePlace }) => {
-  const [enteredTitle, setEnteredTitle] = useState()
+  const [enteredTitle, setEnteredTitle] = useState('')
   const [selectedImage, setSelectedImage] = useState('')
 
   const changeTitleHandler = (enteredText) => {
@@ -22,6 +22,7 @@ const PlaceForm = ({ onCreatePlace }) => {
   const savePlaceHandler = () => {
     if (!enteredTitle || !selectedImage) return
     const placeData = new Place(enteredTitle, selectedImage, null, null)
+    console.log(placeData)
     onCreatePlace(placeData)
   }
 

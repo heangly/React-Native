@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useEffect, useState } from 'react'
+import AppLoading from 'expo-app-loading'
 
 import AllPlaces from './src/screens/AllPlaces'
 import AddPlace from './src/screens/AddPlace'
 import IconButton from './src/components/UI/IconButton'
-
 import { Colors } from './src/constants/Colors'
+import { init } from './src/utils/database'
+
 const Stack = createNativeStackNavigator()
 
 const NavigationStack = () => {
@@ -45,6 +48,23 @@ const NavigationStack = () => {
 }
 
 export default function App() {
+  const [dbInsitialed, setDbInitialized] = useState(false)
+
+  useEffect(() => {
+    init()
+      .then(() => {
+        setDbInitialized(true)
+      })
+      .catch((err) => {
+        console.log(err)
+        setDbInitialized(false)
+      })
+  }, [])
+
+  if (!dbInsitialed) {
+    return <AppLoading />
+  }
+
   return (
     <>
       <StatusBar style='dark' />
