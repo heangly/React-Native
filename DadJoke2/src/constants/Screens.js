@@ -1,5 +1,8 @@
 export default Screens = {
   home: 'Home',
+  homeTab: 'HomeTab',
   favorite: 'Favorite',
-  notification: 'Notification'
+  favoriteTab: 'FavoriteTab',
+  notification: 'Notification',
+  notificationTab: 'NotificationTab'
 }

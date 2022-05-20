@@ -1,7 +1,13 @@
-import { Text } from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
 
 const NotificationScreen = () => {
-  return <Text>NotificationScreen</Text>
+  return (
+    <SafeAreaView>
+      <View>
+        <Text>Notification Screen Hello</Text>
+      </View>
+    </SafeAreaView>
+  )
 }
 
 export default NotificationScreen

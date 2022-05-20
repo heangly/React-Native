@@ -1,7 +1,13 @@
-import { Text } from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
 
 const FavoriteScreen = () => {
-  return <Text>FavoriteScreen</Text>
+  return (
+    <SafeAreaView>
+      <View>
+        <Text>Favorite Screen Hello</Text>
+      </View>
+    </SafeAreaView>
+  )
 }
 
 export default FavoriteScreen
