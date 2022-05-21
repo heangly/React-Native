@@ -7,6 +7,7 @@ import {
   HomeScreenNavigator,
   NotificationScreenNavigator
 } from './StackNavigator'
+import Colors from '../constants/Colors'
 
 const Tab = createBottomTabNavigator()
 
@@ -14,7 +15,12 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName={Screens.homeTab}
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: Colors.primary },
+        tabBarActiveTintColor: 'black',
+        tabBarInactiveTintColor: 'black'
+      }}
     >
       <Tab.Screen
         name={Screens.favoriteTab}
